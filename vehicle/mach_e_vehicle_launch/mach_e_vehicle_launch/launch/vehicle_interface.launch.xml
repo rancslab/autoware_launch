@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<launch>
+  <arg name="vehicle_id" default="$(env VEHICLE_ID default)"/>
+  <!-- Hand off to our DBW2 interface launch: starts the VIN
+       (ds_dbw_autoware_interface) AND the ds_dbw_can driver (dbw_node).
+       driver defaults true; no other launch starts the driver. -->
+  <include file="$(find-pkg-share ds_dbw_autoware)/launch/vehicle_interface.launch.py"/>
+</launch>

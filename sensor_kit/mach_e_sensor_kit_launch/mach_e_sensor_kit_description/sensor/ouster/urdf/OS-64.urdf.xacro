@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://ros.org/wiki/xacro">
+  <!--
+    Minimal Ouster OS-64 macro for the Mach-E sensor kit.
+
+    Creates only the static TF frame for the lidar mount (no visual mesh,
+    no Gazebo sensor plugin) since this runs on real hardware.
+
+    The link is named via the `name` arg, which sensor_kit.xacro sets to
+    "os_sensor" — the same root frame the Ouster ROS driver publishes
+    (os_sensor -> os_lidar / os_imu). That chains the live point cloud onto
+    the vehicle TF tree: base_link -> sensor_kit_base_link -> os_sensor -> os_lidar.
+
+    The topic/hz/samples/gpu params are accepted for call compatibility but
+    unused (the actual driver owns data acquisition).
+  -->
+  <xacro:macro name="OS-64" params="*origin parent name topic:=/points hz:=10 samples:=2048 gpu:=false">
+    <joint name="${name}_joint" type="fixed">
+      <xacro:insert_block name="origin"/>
+      <parent link="${parent}"/>
+      <child link="${name}"/>
+    </joint>
+    <link name="${name}"/>
+  </xacro:macro>
+</robot>

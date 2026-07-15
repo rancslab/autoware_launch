@@ -1,0 +1,42 @@
+# Ouster sensor + decoder parameters for the Nebula OusterRosWrapper.
+# Network / model values here are defaults; ouster.launch.py overrides the
+# connection.* fields, sensor_model and frame_id from launch arguments.
+/**:
+  ros__parameters:
+    # ROS wrapper configuration
+    sensor_model: OS-64
+    launch_hw: true
+    frame_id: ouster
+
+    # Optional metadata cache. Empty -> always fetch from sensor over HTTP.
+    metadata_file: ""
+
+    # Network configuration (Ouster lidar default data port is 7502, IMU 7503).
+    connection:
+      sensor_ip: 169.254.6.37 // change this
+      host_ip: 169.254.6.10 // change this
+      data_port: 7502
+      imu_port: 7503
+      filter_sender_ip: true
+
+    # Decoder field of view. Points outside this range are dropped.
+    fov:
+      azimuth:
+        min_deg: 0.0
+        max_deg: 360.0
+      elevation:
+        min_deg: -45.0
+        max_deg: 45.0
+
+    # Diagnostics configuration
+    diagnostics:
+      pointcloud_publish_rate:
+        frequency_ok:
+          min_hz: 9.0
+          max_hz: 11.0
+        frequency_warn:
+          min_hz: 8.0
+          max_hz: 12.0
+        num_frame_transition: 1
+      packet_liveness:
+        timeout_ms: 1000

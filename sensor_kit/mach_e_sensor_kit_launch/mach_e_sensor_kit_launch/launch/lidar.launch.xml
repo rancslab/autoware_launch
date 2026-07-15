@@ -1,0 +1,39 @@
+<launch>
+  <arg name="launch_driver" default="true"/>
+  <arg name="host_ip" default="169.254.6.1"/>
+  <arg name="use_concat_filter" default="false"/>
+  <arg name="vehicle_id" default="$(env VEHICLE_ID default)"/>
+  <arg name="vehicle_mirror_param_file"/>
+  <arg name="pointcloud_container_name" default="pointcloud_container"/>
+
+  <group>
+    <push-ros-namespace namespace="lidar"/>
+
+    <group>
+      <push-ros-namespace namespace="top"/>
+      <include file="$(find-pkg-share common_sensor_launch)/launch/OS_64.launch.xml">
+          <arg name="launch_driver" value="true"/>
+          <arg name="model" value="OS-64"/>
+          <arg name="sensor_frame" value="os_sensor"/>
+          <arg name="sensor_ip" value="169.254.6.37"/>
+          <arg name="host_ip" value="169.254.6.1"/>
+          <arg name="data_port" value="7502"/>
+          <arg name="imu_port" value="7503"/>
+          <arg name="cloud_min_angle" value="0"/>
+          <arg name="cloud_max_angle" value="360"/>
+          <arg name="elevation_min_deg" value="-45.0"/>
+          <arg name="elevation_max_deg" value="45.0"/>
+          <arg name="vehicle_mirror_param_file" value="$(var vehicle_mirror_param_file)"/>
+          <arg name="container_name" value="ouster_node_container"/>
+      </include>
+    </group>
+
+    <include file="$(find-pkg-share mach_e_sensor_kit_launch)/launch/pointcloud_preprocessor.launch.py">
+      <arg name="base_frame" value="base_link"/>
+      <arg name="use_intra_process" value="true"/>
+      <arg name="use_multithread" value="true"/>
+      <arg name="pointcloud_container_name" value="$(var pointcloud_container_name)"/>
+      <arg name="use_concat_filter" value="$(var use_concat_filter)"/>
+    </include>
+  </group>
+</launch>

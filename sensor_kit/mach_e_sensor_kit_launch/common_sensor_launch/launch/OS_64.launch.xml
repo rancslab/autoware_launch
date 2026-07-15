@@ -1,0 +1,34 @@
+<launch>
+  <!-- Params -->
+  <arg name="launch_driver" default="true"/>
+  <arg name="model" default="OS-64"/>
+  <arg name="sensor_frame" default="ouster"/>
+  <arg name="sensor_ip" default="169.254.6.37"/>
+  <arg name="host_ip" default="169.254.6.1"/>
+  <arg name="data_port" default="7502"/>
+  <arg name="imu_port" default="7503"/>
+  <arg name="cloud_min_angle" default="0"/>
+  <arg name="cloud_max_angle" default="360"/>
+  <arg name="elevation_min_deg" default="-45.0"/>
+  <arg name="elevation_max_deg" default="45.0"/>
+  <arg name="vehicle_mirror_param_file"/>
+  <arg name="container_name" default="ouster_node_container"/>
+
+  <include file="$(find-pkg-share common_sensor_launch)/launch/ouster.launch.py">
+    <arg name="launch_driver" value="$(var launch_driver)"/>
+    <arg name="sensor_model" value="$(var model)"/>
+    <arg name="frame_id" value="$(var sensor_frame)"/>
+    <arg name="sensor_ip" value="$(var sensor_ip)"/>
+    <arg name="host_ip" value="$(var host_ip)"/>
+    <arg name="data_port" value="$(var data_port)"/>
+    <arg name="imu_port" value="$(var imu_port)"/>
+    <arg name="cloud_min_angle" value="$(var cloud_min_angle)"/>
+    <arg name="cloud_max_angle" value="$(var cloud_max_angle)"/>
+    <arg name="elevation_min_deg" value="$(var elevation_min_deg)"/>
+    <arg name="elevation_max_deg" value="$(var elevation_max_deg)"/>
+    <arg name="vehicle_mirror_param_file" value="$(var vehicle_mirror_param_file)"/>
+    <arg name="use_intra_process" value="true"/>
+    <arg name="use_multithread" value="false"/>
+    <arg name="container_name" value="$(var container_name)"/>
+  </include>
+</launch>

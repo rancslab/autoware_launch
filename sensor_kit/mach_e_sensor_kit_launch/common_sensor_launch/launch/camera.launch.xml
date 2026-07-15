@@ -1,0 +1,31 @@
+<launch>
+  <arg name="launch_driver" default="true" description="Launch camera driver"/>
+
+  <!-- v4l2_camera_node params: video_device, pixel_format, output_encoding, image_size -->
+  <arg name="video_device" default="/dev/video0" description="V4L2 device path (video_device)"/>
+  <arg name="pixel_format" default="YUYV" description="V4L2 FOURCC pixel format: YUYV, UYVY, or GREY"/>
+  <arg name="output_encoding" default="rgb8" description="Output image encoding via cv_bridge (e.g. rgb8, bgr8, mono8)"/>
+  <arg name="image_width" default="640" description="Image width (image_size[0])"/>
+  <arg name="image_height" default="480" description="Image height (image_size[1])"/>
+  <arg name="camera_frame_id" default="traffic_light/camera_link" description="Frame id in Image/CameraInfo headers"/>
+  <arg name="camera_info_url" default="" description="Optional camera calibration yaml (camera_info_url)"/>
+  <arg name="camera_container_name" default="traffic_light_camera_container"/>
+  <arg name="use_intra_process" default="true"/>
+  <arg name="use_multithread" default="false"/>
+
+  <group if="$(var launch_driver)">
+    <push-ros-namespace namespace="camera"/>
+    <include file="$(find-pkg-share common_sensor_launch)/launch/camera_node_container.launch.py">
+      <arg name="video_device" value="$(var video_device)"/>
+      <arg name="pixel_format" value="$(var pixel_format)"/>
+      <arg name="output_encoding" value="$(var output_encoding)"/>
+      <arg name="image_width" value="$(var image_width)"/>
+      <arg name="image_height" value="$(var image_height)"/>
+      <arg name="camera_frame_id" value="$(var camera_frame_id)"/>
+      <arg name="camera_info_url" value="$(var camera_info_url)"/>
+      <arg name="camera_container_name" value="$(var camera_container_name)"/>
+      <arg name="use_intra_process" value="$(var use_intra_process)"/>
+      <arg name="use_multithread" value="$(var use_multithread)"/>
+    </include>
+  </group>
+</launch>
