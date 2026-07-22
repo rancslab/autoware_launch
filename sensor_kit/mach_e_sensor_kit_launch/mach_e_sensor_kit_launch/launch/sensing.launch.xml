@@ -18,9 +18,9 @@
     </include> 
 
     <!-- IMU Driver -->
-    <!-- <include file="$(find-pkg-share mach_e_sensor_kit_launch)/launch/imu.launch.xml">
+    <include file="$(find-pkg-share mach_e_sensor_kit_launch)/launch/imu.launch.xml">
       <arg name="launch_driver" value="$(var launch_driver)"/>
-    </include> -->
+    </include>
 
     <!-- GNSS Driver -->
     <include file="$(find-pkg-share mach_e_sensor_kit_launch)/launch/gnss.launch.xml">

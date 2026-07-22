@@ -10,21 +10,21 @@ sensor_kit_base_link:
     x: 0.0
     y: 0.0
     z: 2.5
-    roll: 3.14
+    roll: 0.0
     pitch: 0.0
     yaw: 3.14
   gnss_link:
     x: -0.1
     y: 0.0
     z: -0.2
-    roll: 0.0
-    pitch: 0.0
+    roll: 0.00
+    pitch: 0.00
     yaw: 0.0
   imu_link:
     x: 0.0
     y: 0.0
     z: 0.0
-    roll: 0.0
-    pitch: 0.0
+    roll: 0.00
+    pitch: 0.00
     yaw: 0.0
 

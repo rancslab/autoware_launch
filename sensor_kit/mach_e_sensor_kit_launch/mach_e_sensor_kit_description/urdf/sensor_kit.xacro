@@ -50,10 +50,9 @@
       yaw="${calibration['sensor_kit_base_link']['gnss_link']['yaw']}"
       fps="100"
     />
-  </xacro:macro>
 
-      <!-- imu -->
-    <!-- <xacro:imu_macro
+          <!-- imu -->
+    <xacro:imu_macro
       name="imu"
       parent="sensor_kit_base_link"
       namespace=""
@@ -64,6 +63,7 @@
       pitch="${calibration['sensor_kit_base_link']['imu_link']['pitch']}"
       yaw="${calibration['sensor_kit_base_link']['imu_link']['yaw']}"
       fps="100"
-    /> -->
+    />
+  </xacro:macro>
 
 </robot>
