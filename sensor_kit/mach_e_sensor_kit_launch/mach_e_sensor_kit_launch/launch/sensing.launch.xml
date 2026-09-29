@@ -11,11 +11,12 @@
       <arg name="vehicle_mirror_param_file" value="$(var vehicle_mirror_param_file)"/>
       <arg name="pointcloud_container_name" value="$(var pointcloud_container_name)"/>
     </include>
-
-    <!-- Camera Driver -->
+<!-- 
+     Camera Driver disabled for lidar-only bringup. Re-enable by removing this comment wrapper. -->
     <include file="$(find-pkg-share mach_e_sensor_kit_launch)/launch/camera.launch.xml">
       <arg name="launch_driver" value="$(var launch_driver)" />
-    </include> 
+    </include>
+    
 
     <!-- IMU Driver -->
     <include file="$(find-pkg-share mach_e_sensor_kit_launch)/launch/imu.launch.xml">

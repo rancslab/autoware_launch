@@ -64,6 +64,24 @@
       yaw="${calibration['sensor_kit_base_link']['imu_link']['yaw']}"
       fps="100"
     />
+
+    <!-- camera disabled for lidar-only bringup. Re-enable by removing this comment wrapper. -->
+<xacro:monocular_camera_macro
+      name="camera_top"
+      parent="${sensor_kit_base_link}"
+      namespace="camera_top"
+      x="${calibration['sensor_kit_base_link']['camera_top/camera_link']['x']}"
+      y="${calibration['sensor_kit_base_link']['camera_top/camera_link']['y']}"
+      z="${calibration['sensor_kit_base_link']['camera_top/camera_link']['z']}"
+      roll="${calibration['sensor_kit_base_link']['camera_top/camera_link']['roll']}"
+      pitch="${calibration['sensor_kit_base_link']['camera_top/camera_link']['pitch']}"
+      yaw="${calibration['sensor_kit_base_link']['camera_top/camera_link']['yaw']}"
+      fps="30"
+      width="1920"
+      height="1080"
+      fov="1.5708"
+    />
+
   </xacro:macro>
 
 </robot>

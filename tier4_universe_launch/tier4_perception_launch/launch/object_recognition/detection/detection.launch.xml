@@ -51,6 +51,7 @@
   <arg name="camera_2d_detector/roi_to_semseg_remap_path"/>
   <arg name="use_camera_vru_detector"/>
   <arg name="camera_vru_detector_rois_ids" default="[0]"/>
+  <arg name="enable_2d_detection" default="false" description="true: run the 2d detector locally, false: it runs on a separate machine"/>
 
   <!-- External interfaces -->
   <arg name="number_of_cameras"/>
@@ -191,6 +192,7 @@
     <include file="$(find-pkg-share tier4_perception_launch)/launch/object_recognition/detection/detector/camera_lidar_detector.launch.xml">
       <arg name="ns" value="$(var ns)"/>
       <arg name="number_of_cameras" value="$(var number_of_cameras)"/>
+      <arg name="enable_2d_detection" value="$(var enable_2d_detection)"/>
       <arg name="input/camera0/image" value="$(var input/camera0/image)"/>
       <arg name="input/camera0/info" value="$(var input/camera0/info)"/>
       <arg name="input/camera0/rois" value="$(var input/camera0/rois)"/>

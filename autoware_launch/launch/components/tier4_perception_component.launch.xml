@@ -54,6 +54,9 @@
   <arg name="detected_objects_validation_method" default="obstacle_pointcloud" description="options: obstacle_pointcloud, occupancy_grid (must be used with laserscan_based_occupancy_grid_map)"/>
   <arg name="data_path" default="$(env HOME)/autoware_data/ml_models" description="packages data and artifacts directory path"/>
   <arg name="lidar_detection_model" default="centerpoint" description="If the model name is not declared, the default model in perception.launch.xml will be used"/>
+  <!-- mach_e carries a single forward Lucid camera wired to the camera0 slot -->
+  <arg name="image_number" default="1" description="number of cameras feeding camera-lidar fusion (1-9)"/>
+  <arg name="enable_2d_detection" default="true" description="run the camera 2d detector (yolox) on this machine; set false if it runs on a separate machine"/>
   <arg name="ml_camera_lidar_merger_priority_mode" default="0" description="priority mode for ml and camera_lidar merger, options: `0: Object0`, `1: Object1`, `2: ConfidenceBased`, `3: ClassBased`"/>
   <arg name="input_pointcloud_for_traffic_light_occlusion_predictor" default="/sensing/lidar/top/pointcloud_raw_ex" description="input pointcloud topic for traffic_light_occlusion_predictor"/>
 
@@ -75,7 +78,7 @@
     description="path to a definition file for remapping ROI classes to semantic segmentation output classes"
   />
 
-  <arg name="traffic_light_recognition/camera_namespaces" default="[camera6, camera7]" description="choose camera which use for traffic light recognition"/>
+  <arg name="traffic_light_recognition/camera_namespaces" default="[camera0]" description="choose camera which use for traffic light recognition"/>
   <arg name="traffic_light_recognition/use_high_accuracy_detection" default="true" description="select whether to use high accuracy detector for traffic light recognition"/>
   <arg
     name="traffic_light_recognition/high_accuracy_detection_type"
@@ -145,6 +148,8 @@
     <arg name="use_camera_vru_detector" value="$(var use_camera_vru_detector)"/>
     <arg name="camera_vru_detector_rois_ids" value="$(var camera_vru_detector_rois_ids)"/>
 
+    <arg name="image_number" value="$(var image_number)"/>
+    <arg name="enable_2d_detection" value="$(var enable_2d_detection)"/>
     <arg name="camera_2d_detector/model_path" value="$(var camera_2d_detector/model_path)"/>
     <arg name="camera_2d_detector/label_path" value="$(var camera_2d_detector/label_path)"/>
     <arg name="camera_2d_detector/color_map_path" value="$(var camera_2d_detector/color_map_path)"/>

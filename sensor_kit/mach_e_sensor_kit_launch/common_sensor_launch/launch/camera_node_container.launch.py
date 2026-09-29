@@ -1,99 +1,99 @@
+# # Copyright 2020 Tier IV, Inc. All rights reserved.
+# #
+# # Licensed under the Apache License, Version 2.0 (the "License");
+# # you may not use this file except in compliance with the License.
+# # You may obtain a copy of the License at
+# #
+# #     http://www.apache.org/licenses/LICENSE-2.0
+# #
+# # Unless required by applicable law or agreed to in writing, software
+# # distributed under the License is distributed on an "AS IS" BASIS,
+# # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# # See the License for the specific language governing permissions and
+# # limitations under the License.
+
 import launch
 from launch.actions import DeclareLaunchArgument
-from launch.actions import OpaqueFunction
 from launch.actions import SetLaunchConfiguration
 from launch.conditions import IfCondition
 from launch.conditions import UnlessCondition
-from launch.substitutions import LaunchConfiguration
-
+from launch.substitutions.launch_configuration import LaunchConfiguration
 from launch_ros.actions import ComposableNodeContainer
 from launch_ros.descriptions import ComposableNode
-
+from launch_ros.substitutions import FindPackageShare
+from launch.actions import OpaqueFunction
+import yaml
 
 def launch_setup(context, *args, **kwargs):
-    video_device = LaunchConfiguration("video_device").perform(context)
-    image_width = int(LaunchConfiguration("image_width").perform(context))
-    image_height = int(LaunchConfiguration("image_height").perform(context))
-    pixel_format = LaunchConfiguration("pixel_format").perform(context)
-    output_encoding = LaunchConfiguration("output_encoding").perform(context)
-    camera_info_url = LaunchConfiguration("camera_info_url").perform(context)
-    camera_frame_id = LaunchConfiguration("camera_frame_id").perform(context)
+    image_name = LaunchConfiguration("input_image").perform(context)
     camera_container_name = LaunchConfiguration("camera_container_name").perform(context)
-    use_intra_process = (
-        LaunchConfiguration("use_intra_process").perform(context).lower() == "true"
-    )
 
-    camera_params = {
-        "video_device": video_device,
-        "pixel_format": pixel_format,
-        "output_encoding": output_encoding,
-        "image_size": [image_width, image_height],
-        "camera_frame_id": camera_frame_id,
-    }
+    camera_param_path=FindPackageShare("lucid_vision_driver").perform(context)+"/param/"+image_name+".param.yaml"
+    with open(camera_param_path, "r") as f:
+        camera_yaml_param = yaml.safe_load(f)["/**"]["ros__parameters"]
 
-    if camera_info_url:
-        camera_params["camera_info_url"] = camera_info_url
 
     container = ComposableNodeContainer(
         name=camera_container_name,
-        namespace="traffic_light",
+        namespace="/perception/object_detection",
         package="rclcpp_components",
         executable=LaunchConfiguration("container_executable"),
         output="screen",
         composable_node_descriptions=[
             ComposableNode(
-                package="v4l2_camera",
-                plugin="v4l2_camera::V4L2Camera",
-                name="v4l2_camera",
-                parameters=[camera_params],
-                extra_arguments=[{"use_intra_process_comms": use_intra_process}],
+                package="lucid_vision_driver",
+                plugin="ArenaCameraNode",
+                name="arena_camera_node",
+                parameters=[{
+                    "camera_name": camera_yaml_param['camera_name'],
+                    "frame_id": camera_yaml_param['frame_id'],
+                    "pixel_format": camera_yaml_param['pixel_format'],
+                    "serial_no": camera_yaml_param['serial_no'],
+                    "camera_info_url": camera_yaml_param['camera_info_url'],
+                    "fps": camera_yaml_param['fps'],
+                    "horizontal_binning": camera_yaml_param['horizontal_binning'],
+                    "vertical_binning": camera_yaml_param['vertical_binning'],
+                    "use_default_device_settings": camera_yaml_param['use_default_device_settings'],
+                    "exposure_auto": camera_yaml_param['exposure_auto'],
+                    "exposure_target": camera_yaml_param['exposure_target'],
+                    "gain_auto": camera_yaml_param['gain_auto'],
+                    "gain_target": camera_yaml_param['gain_target'],
+                    "gamma_target": camera_yaml_param['gamma_target'],
+                    "enable_compressing": camera_yaml_param['enable_compressing'],
+                    "enable_rectifying": camera_yaml_param['enable_rectifying'],
+                    "image_horizontal_flip": camera_yaml_param['image_horizontal_flip'],
+                    "image_vertical_flip": camera_yaml_param['image_vertical_flip'],
+                }],
+                remappings=[
+                    # Feed the perception camera0 slot, which camera_lidar_fusion
+                    # (roi_cluster_fusion) and tensorrt_yolox subscribe to.
+                    ("/lucid_vision/camera_1/image", "/sensing/camera/camera0/image_raw"),
+                    ("/lucid_vision/camera_1/image_rect", "/sensing/camera/camera0/image_rect_color"),
+                    ("/lucid_vision/camera_1/image_compressed", "/sensing/camera/camera0/image_raw/compressed"),
+                    ("/lucid_vision/camera_1/camera_info", "/sensing/camera/camera0/camera_info"),
+                ],
+                extra_arguments=[
+                    {"use_intra_process_comms": LaunchConfiguration("use_intra_process")}
+                ],
             ),
         ],
-    )
 
+    )
     return [container]
 
 
 def generate_launch_description():
     launch_arguments = []
 
-    def add_launch_arg(name, default_value=None, description=None):
+    def add_launch_arg(name: str, default_value=None, description=None):
+        # a default_value of None is equivalent to not passing that kwarg at all
         launch_arguments.append(
-            DeclareLaunchArgument(
-                name, default_value=default_value, description=description
-            )
+            DeclareLaunchArgument(name, default_value=default_value, description=description)
         )
-
-    add_launch_arg("video_device", "/dev/video0", "V4L2 device path (video_device)")
-    add_launch_arg(
-        "pixel_format",
-        "YUYV",
-        "V4L2 FOURCC pixel format: YUYV, UYVY, or GREY",
-    )
-    add_launch_arg(
-        "output_encoding",
-        "rgb8",
-        "Output image encoding via cv_bridge (e.g. rgb8, bgr8, mono8)",
-    )
-    add_launch_arg("image_width", "640", "Image width (image_size[0])")
-    add_launch_arg("image_height", "480", "Image height (image_size[1])")
-    add_launch_arg(
-        "camera_frame_id",
-        "traffic_light/camera_link",
-        "camera_frame_id in CameraInfo/Image header",
-    )
-    add_launch_arg(
-        "camera_info_url",
-        "",
-        "Optional camera_info yaml, e.g. file:///path/to/camera_info.yaml",
-    )
-    add_launch_arg(
-        "camera_container_name",
-        "traffic_light_camera_container",
-        "Component container name",
-    )
-    add_launch_arg("use_intra_process", "true", "Enable intra-process comms")
-    add_launch_arg("use_multithread", "false", "Use multithreaded container")
+    add_launch_arg("input_image","", description="input camera topic")
+    add_launch_arg("camera_container_name","")
+    add_launch_arg("use_intra_process", "", "use intra process")
+    add_launch_arg("use_multithread", "", "use multithread")
 
     set_container_executable = SetLaunchConfiguration(
         "container_executable",

@@ -135,6 +135,7 @@
   <arg name="use_obstacle_segmentation_single_frame_filter" description="use single frame filter at the ground segmentation"/>
   <arg name="use_obstacle_segmentation_time_series_filter" description="use time series filter at the ground segmentation"/>
   <arg name="use_camera_vru_detector" default="false" description="enable pipeline for camera based VRU object detection"/>
+  <arg name="enable_2d_detection" default="false" description="true: run the camera 2d detector (yolox) on this machine, false: it runs on a separate machine"/>
   <arg name="use_cuda_ground_segmentation" default="false" description="use cuda ground segmentation filter at the ground segmentation"/>
 
   <!-- traffic light recognition options to switch launch function/module -->
@@ -278,6 +279,7 @@
           <arg name="lidar_short_range_detection_model_name" value="$(var lidar_short_range_detection_model_name)"/>
           <arg name="use_multi_channel_tracker_merger" value="$(var use_multi_channel_tracker_merger)"/>
           <arg name="number_of_cameras" value="$(var image_number)"/>
+          <arg name="enable_2d_detection" value="$(var enable_2d_detection)"/>
           <arg name="input/camera0/image" value="$(var image_raw0)"/>
           <arg name="input/camera0/info" value="$(var camera_info0)"/>
           <arg name="input/camera0/rois" value="$(var detection_rois0)"/>

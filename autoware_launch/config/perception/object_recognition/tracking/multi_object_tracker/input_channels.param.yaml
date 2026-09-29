@@ -14,6 +14,12 @@
         optional:
           name: "detected_objects"
           short_name: "all"
+      # DUMMY - for testing
+      dummy_objects:
+        associator_type: bev
+        optional:
+          name: "dummy"
+          short_name: "dmy"
       # LIDAR - rule-based
       lidar_clustering:
         associator_type: polar
