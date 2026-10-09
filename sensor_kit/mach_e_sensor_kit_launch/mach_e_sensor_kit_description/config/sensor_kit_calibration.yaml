@@ -3,9 +3,9 @@ sensor_kit_base_link:
     x: 1.841
     y: 0.013
     z: 1.679
-    roll: 0.0226
-    pitch: 0.0269
-    yaw: 0.0977
+    roll: 0.0229
+    pitch: 0.0250
+    yaw: 0.0575
   ouster_base_link:
     x: 1.102
     y: 0.0
