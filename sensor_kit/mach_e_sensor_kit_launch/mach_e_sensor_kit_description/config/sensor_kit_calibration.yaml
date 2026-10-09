@@ -1,18 +1,18 @@
 sensor_kit_base_link:
   camera_top/camera_link:
-    x: 1.851
-    y: 0.0
-    z: 1.711
-    roll: 0
-    pitch: 0.0
-    yaw: 0
+    x: 1.841
+    y: 0.013
+    z: 1.679
+    roll: 0.0226
+    pitch: 0.0269
+    yaw: 0.0977
   ouster_base_link:
     x: 1.102
     y: 0.0
     z: 1.991
     roll: 0.0
     pitch: 0.0
-    yaw: 3.14
+    yaw: 3.14159265
   gnss_link:
     x: 0.026
     y: -0.1143
