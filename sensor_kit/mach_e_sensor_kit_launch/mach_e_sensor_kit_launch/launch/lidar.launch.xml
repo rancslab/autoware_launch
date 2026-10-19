@@ -1,6 +1,6 @@
 <launch>
   <arg name="launch_driver" default="true"/>
-  <arg name="host_ip" default="169.254.6.1"/>
+  <arg name="host_ip" default="192.168.88.100"/>
   <arg name="use_concat_filter" default="false"/>
   <arg name="vehicle_id" default="$(env VEHICLE_ID default)"/>
   <arg name="vehicle_mirror_param_file"/>
@@ -13,10 +13,10 @@
       <push-ros-namespace namespace="top"/>
       <include file="$(find-pkg-share common_sensor_launch)/launch/OS_64.launch.xml">
           <arg name="launch_driver" value="true"/>
-          <arg name="model" value="OS-64"/>
+          <arg name="model" value="OS-128"/>
           <arg name="sensor_frame" value="os_sensor"/>
-          <arg name="sensor_ip" value="169.254.6.37"/>
-          <arg name="host_ip" value="169.254.6.1"/>
+          <arg name="sensor_ip" value="192.168.88.37"/>
+          <arg name="host_ip" value="192.168.88.100"/>
           <arg name="data_port" value="7502"/>
           <arg name="imu_port" value="7503"/>
           <arg name="cloud_min_angle" value="0"/>

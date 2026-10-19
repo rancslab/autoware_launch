@@ -1,10 +1,10 @@
 <launch>
   <!-- Params -->
   <arg name="launch_driver" default="true"/>
-  <arg name="model" default="OS-64"/>
+  <arg name="model" default="OS-128"/>
   <arg name="sensor_frame" default="ouster"/>
-  <arg name="sensor_ip" default="169.254.6.37"/>
-  <arg name="host_ip" default="169.254.6.1"/>
+  <arg name="sensor_ip" default="192.168.88.37"/>
+  <arg name="host_ip" default="192.168.88.100"/>
   <arg name="data_port" default="7502"/>
   <arg name="imu_port" default="7503"/>
   <arg name="cloud_min_angle" default="0"/>

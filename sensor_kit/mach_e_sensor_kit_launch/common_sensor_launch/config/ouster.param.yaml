@@ -4,7 +4,7 @@
 /**:
   ros__parameters:
     # ROS wrapper configuration
-    sensor_model: OS-64
+    sensor_model: OS-128
     launch_hw: true
     frame_id: ouster
 
@@ -13,8 +13,8 @@
 
     # Network configuration (Ouster lidar default data port is 7502, IMU 7503).
     connection:
-      sensor_ip: 169.254.6.37  # change this
-      host_ip: 169.254.6.1  # change this
+      sensor_ip: 192.168.88.37  # change this
+      host_ip: 192.168.88.100  # change this
       data_port: 7502
       imu_port: 7503
       filter_sender_ip: true
