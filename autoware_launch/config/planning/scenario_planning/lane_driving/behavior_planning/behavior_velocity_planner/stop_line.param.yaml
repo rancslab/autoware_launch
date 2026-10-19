@@ -1,7 +1,7 @@
 /**:
   ros__parameters:
     stop_line:
-      stop_margin: 0.0
+      stop_margin: 2.0 # Mach-E overshot by ~1 m with 0.0 (late braking + ~1 s longitudinal lag)
       required_stop_duration_sec: 1.0
       vehicle_stopped_duration_threshold: 0.0
       hold_stop_margin_distance: 2.0
