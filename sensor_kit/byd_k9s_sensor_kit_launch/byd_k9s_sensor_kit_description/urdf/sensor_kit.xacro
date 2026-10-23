@@ -1,0 +1,42 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://ros.org/wiki/xacro">
+  <!--
+    BYD K9S bus sensor kit with static TF frames only (real hardware, no meshes or Gazebo plugins).
+    base_link -> sensor_kit_base_link -> lidar_front_left / lidar_front_right / gnss_link / imu_link
+  -->
+  <xacro:macro name="sensor_kit_macro" params="parent x y z roll pitch yaw">
+    <xacro:arg name="config_dir" default="$(find byd_k9s_sensor_kit_description)/config"/>
+
+    <xacro:property name="sensor_kit_base_link" default="sensor_kit_base_link"/>
+
+    <joint name="${sensor_kit_base_link}_joint" type="fixed">
+      <origin rpy="${roll} ${pitch} ${yaw}" xyz="${x} ${y} ${z}"/>
+      <parent link="${parent}"/>
+      <child link="${sensor_kit_base_link}"/>
+    </joint>
+    <link name="${sensor_kit_base_link}">
+      <origin rpy="0 0 0" xyz="0 0 0"/>
+    </link>
+
+    <xacro:property name="calibration" value="${xacro.load_yaml('$(arg config_dir)/sensor_kit_calibration.yaml')}"/>
+
+    <!-- one fixed joint per sensor frame, pose from sensor_kit_calibration.yaml -->
+    <xacro:macro name="sensor_frame" params="name">
+      <xacro:property name="c" value="${calibration['sensor_kit_base_link'][name]}"/>
+      <joint name="${name}_joint" type="fixed">
+        <origin xyz="${c['x']} ${c['y']} ${c['z']}" rpy="${c['roll']} ${c['pitch']} ${c['yaw']}"/>
+        <parent link="${sensor_kit_base_link}"/>
+        <child link="${name}"/>
+      </joint>
+      <link name="${name}"/>
+    </xacro:macro>
+
+    <!-- lidar -->
+    <xacro:sensor_frame name="lidar_front_left"/>
+    <xacro:sensor_frame name="lidar_front_right"/>
+
+    <!-- gnss / imu (ADMA) -->
+    <xacro:sensor_frame name="gnss_link"/>
+    <xacro:sensor_frame name="imu_link"/>
+  </xacro:macro>
+</robot>

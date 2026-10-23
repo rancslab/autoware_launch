@@ -1,0 +1,21 @@
+/**:
+  ros__parameters:
+    debug_mode: false
+    rosbag_length: 10.0
+    maximum_queue_size: 5
+    timeout_sec: 0.1
+    is_motion_compensated: true
+    publish_synchronized_pointcloud: true
+    keep_input_frame_in_synchronized_pointcloud: true
+    publish_previous_but_late_pointcloud: false
+    synchronized_pointcloud_postfix: pointcloud
+    input_twist_topic_type: twist
+    input_topics: [
+                    "/sensing/lidar/front_left/pointcloud_before_sync",
+                    "/sensing/lidar/front_right/pointcloud_before_sync",
+                ]
+    output_frame: base_link
+    # The two lidars are not phase-locked (timestamp_mode TIME_FROM_INTERNAL_OSC, clouds stamped with
+    # host arrival time), so match clouds by arrival rather than by timestamp offsets.
+    matching_strategy:
+      type: naive

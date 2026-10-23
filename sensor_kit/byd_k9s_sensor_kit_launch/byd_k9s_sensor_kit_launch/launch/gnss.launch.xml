@@ -1,0 +1,26 @@
+<launch>
+  <arg name="launch_driver" default="false"/>
+
+  <let name="navsatfix_topic_name" value="/genesys/adma/fix"/>
+  <let name="orientation_topic_name" value="/autoware_orientation"/>
+
+  <!-- ADMA heading (deg clockwise from north) -> ENU orientation for gnss_poser -->
+  <node pkg="adma_tools_py" exec="autoware_orientation" name="adma_autoware_orientation" output="screen">
+    <remap from="adma_data_scaled" to="/genesys/adma/data_scaled"/>
+    <remap from="autoware_orientation" to="$(var orientation_topic_name)"/>
+    <param name="frame_id" value="gnss_link"/>
+    <param name="yaw_offset_deg" value="0.0"/>
+  </node>
+
+  <include file="$(find-pkg-share autoware_gnss_poser)/launch/gnss_poser.launch.xml">
+    <arg name="input_topic_fix" value="$(var navsatfix_topic_name)"/>
+    <arg name="input_topic_orientation" value="$(var orientation_topic_name)"/>
+
+    <arg name="output_topic_gnss_pose" value="/sensing/gnss/pose"/>
+    <arg name="output_topic_gnss_pose_cov" value="/sensing/gnss/pose_with_covariance"/>
+    <arg name="output_topic_gnss_fixed" value="/sensing/gnss/fixed"/>
+
+    <arg name="use_gnss_ins_orientation" value="true"/>
+  </include>
+
+</launch>

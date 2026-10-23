@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://ros.org/wiki/xacro">
+  <!-- load parameter -->
+  <xacro:property name="vehicle_info" value="${xacro.load_yaml('$(find byd_k9s_vehicle_description)/config/vehicle_info.param.yaml')}"/>
+  <xacro:property name="p" value="${vehicle_info['/**']['ros__parameters']}"/>
+
+  <!-- vehicle body as a box the size of the bus (no mesh for the K9S) -->
+  <link name="base_link">
+    <visual>
+      <origin xyz="${(p['wheel_base'] + p['front_overhang'] - p['rear_overhang']) / 2.0} 0 ${p['vehicle_height'] / 2.0}" rpy="0 0 0"/>
+      <geometry>
+        <box size="${p['front_overhang'] + p['wheel_base'] + p['rear_overhang']} ${p['wheel_tread'] + p['left_overhang'] + p['right_overhang']} ${p['vehicle_height']}"/>
+      </geometry>
+      <material name="bus_white">
+        <color rgba="0.9 0.9 0.9 0.4"/>
+      </material>
+    </visual>
+  </link>
+</robot>

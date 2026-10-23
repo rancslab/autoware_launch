@@ -1,0 +1,10 @@
+# Side mirrors, estimated from drawing K9S-00001: 119.5 in across the mirrors, mirror bottom ~80 in
+# above the ground, mirrors at the front corners. Points inside this box are cropped from each lidar.
+/**:
+  ros__parameters:
+    min_longitudinal_offset: 7.2
+    max_longitudinal_offset: 8.4
+    min_lateral_offset: -1.52
+    max_lateral_offset: 1.52
+    min_height_offset: 1.95
+    max_height_offset: 2.75

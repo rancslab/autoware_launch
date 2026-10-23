@@ -1,0 +1,70 @@
+Panels:
+  - Class: rviz_common/Displays
+    Name: Displays
+Visualization Manager:
+  Class: ""
+  Displays:
+    - Class: rviz_default_plugins/Grid
+      Name: Grid
+      Enabled: true
+      Cell Size: 1
+      Plane Cell Count: 60
+      Reference Frame: base_link
+    - Class: rviz_default_plugins/RobotModel
+      Name: Bus
+      Enabled: true
+      Description Source: Topic
+      Description Topic:
+        Value: /robot_description
+    - Class: rviz_default_plugins/TF
+      Name: TF
+      Enabled: true
+      Show Names: true
+      Marker Scale: 2
+    - Class: rviz_default_plugins/PointCloud2
+      Name: concatenated
+      Enabled: true
+      Topic:
+        Value: /sensing/lidar/concatenated/pointcloud
+        Reliability Policy: Best Effort
+        Depth: 5
+      Size (Pixels): 2
+      Color Transformer: AxisColor
+      Axis: Z
+      Min Value: -0.5
+      Max Value: 3
+      Autocompute Value Bounds: false
+    - Class: rviz_default_plugins/PointCloud2
+      Name: front_left (blue)
+      Enabled: false
+      Topic:
+        Value: /sensing/lidar/front_left/pointcloud_before_sync
+        Reliability Policy: Best Effort
+        Depth: 5
+      Size (Pixels): 2
+      Color Transformer: FlatColor
+      Color: 60; 120; 255
+    - Class: rviz_default_plugins/PointCloud2
+      Name: front_right (red)
+      Enabled: false
+      Topic:
+        Value: /sensing/lidar/front_right/pointcloud_before_sync
+        Reliability Policy: Best Effort
+        Depth: 5
+      Size (Pixels): 2
+      Color Transformer: FlatColor
+      Color: 255; 70; 70
+  Global Options:
+    Fixed Frame: base_link
+    Background Color: 30; 30; 30
+    Frame Rate: 30
+  Views:
+    Current:
+      Class: rviz_default_plugins/Orbit
+      Distance: 45
+      Pitch: 0.9
+      Yaw: 3.6
+      Focal Point: {X: 4, Y: 0, Z: 0}
+Window Geometry:
+  Width: 1400
+  Height: 900

@@ -1,0 +1,37 @@
+# BYD K9S bus. sensor_kit_base_link == base_link (rear axle centre on the ground), so these are base_link poses.
+# Lidars: two Ouster OS1-64 at the front corners, mounted upside down (roll ~pi).
+#   Position: tape-measured to the lens centre, 2026-10-23 (64.75 in up, 2 in behind the front face,
+#   52 in either side of the centreline; front face = wheelbase 222 in + front overhang 87 in).
+#   Rotation: first estimate from the point clouds (ground plane -> roll/pitch, sector blocked by the
+#   bus body -> yaw). Good to a few degrees; replace with a proper calibration.
+# The frames are the ones Nebula stamps the clouds with (frame_id in lidar.launch.xml).
+sensor_kit_base_link:
+  lidar_front_left:   # 192.168.0.210, SN 122328001026
+    x: 7.798
+    y: 1.321
+    z: 1.645
+    roll: -3.1388
+    pitch: 0.0536
+    yaw: -1.8937
+  lidar_front_right:  # 192.168.11.10, SN 122344000555
+    x: 7.798
+    y: -1.321
+    z: 1.645
+    roll: -3.1072
+    pitch: 0.0773
+    yaw: 1.8427
+  # TODO: ADMA GNSS/INS position on the bus is not measured yet (placeholder at base_link).
+  gnss_link:
+    x: 0.0
+    y: 0.0
+    z: 0.0
+    roll: 0.0
+    pitch: 0.0
+    yaw: 0.0
+  imu_link:
+    x: 0.0
+    y: 0.0
+    z: 0.0
+    roll: 0.0
+    pitch: 0.0
+    yaw: 0.0

@@ -1,0 +1,58 @@
+<launch>
+  <arg name="launch_driver" default="true"/>
+  <arg name="use_concat_filter" default="true"/>
+  <arg name="vehicle_id" default="$(env VEHICLE_ID default)"/>
+  <arg name="vehicle_mirror_param_file"/>
+  <arg name="pointcloud_container_name" default="pointcloud_container"/>
+  <arg name="ouster_param_path" default="$(find-pkg-share byd_k9s_sensor_kit_launch)/config/ouster.param.yaml"/>
+
+  <!-- Two Ouster OS1-64 at the front corners. Each lidar sends to its own subnet on the sensor NIC
+       (NM profile mach-e-sensors) and has its own ports, both saved on the lidar. -->
+  <group>
+    <push-ros-namespace namespace="lidar"/>
+
+    <group>
+      <push-ros-namespace namespace="front_left"/>
+      <include file="$(find-pkg-share common_sensor_launch)/launch/ouster.launch.py">
+        <arg name="launch_driver" value="$(var launch_driver)"/>
+        <arg name="sensor_model" value="OS-64"/>
+        <arg name="frame_id" value="lidar_front_left"/>
+        <arg name="sensor_ip" value="192.168.0.210"/>
+        <arg name="host_ip" value="192.168.0.100"/>
+        <arg name="data_port" value="7502"/>
+        <arg name="imu_port" value="7503"/>
+        <arg name="sensor_param_path" value="$(var ouster_param_path)"/>
+        <arg name="vehicle_mirror_param_file" value="$(var vehicle_mirror_param_file)"/>
+        <arg name="use_intra_process" value="true"/>
+        <arg name="use_multithread" value="false"/>
+        <arg name="container_name" value="ouster_front_left_container"/>
+      </include>
+    </group>
+
+    <group>
+      <push-ros-namespace namespace="front_right"/>
+      <include file="$(find-pkg-share common_sensor_launch)/launch/ouster.launch.py">
+        <arg name="launch_driver" value="$(var launch_driver)"/>
+        <arg name="sensor_model" value="OS-64"/>
+        <arg name="frame_id" value="lidar_front_right"/>
+        <arg name="sensor_ip" value="192.168.11.10"/>
+        <arg name="host_ip" value="192.168.11.100"/>
+        <arg name="data_port" value="7504"/>
+        <arg name="imu_port" value="7505"/>
+        <arg name="sensor_param_path" value="$(var ouster_param_path)"/>
+        <arg name="vehicle_mirror_param_file" value="$(var vehicle_mirror_param_file)"/>
+        <arg name="use_intra_process" value="true"/>
+        <arg name="use_multithread" value="false"/>
+        <arg name="container_name" value="ouster_front_right_container"/>
+      </include>
+    </group>
+
+    <include file="$(find-pkg-share byd_k9s_sensor_kit_launch)/launch/pointcloud_preprocessor.launch.py">
+      <arg name="base_frame" value="base_link"/>
+      <arg name="use_intra_process" value="true"/>
+      <arg name="use_multithread" value="true"/>
+      <arg name="pointcloud_container_name" value="$(var pointcloud_container_name)"/>
+      <arg name="use_concat_filter" value="$(var use_concat_filter)"/>
+    </include>
+  </group>
+</launch>

@@ -1,0 +1,28 @@
+<?xml version="1.0"?>
+<?xml-model href="http://download.ros.org/schema/package_format3.xsd" schematypens="http://www.w3.org/2001/XMLSchema"?>
+<package format="3">
+  <name>byd_k9s_sensor_kit_launch</name>
+  <version>0.51.0</version>
+  <description>Sensing launch for the RANCS Lab BYD K9S bus (two Ouster OS1-64, ADMA GNSS/INS)</description>
+  <maintainer email="vm29@usf.edu">Vadivelan Murugesan</maintainer>
+  <license>Apache License 2.0</license>
+
+  <buildtool_depend>ament_cmake_auto</buildtool_depend>
+
+  <exec_depend>adma_tools_py</exec_depend>
+  <exec_depend>autoware_gnss_poser</exec_depend>
+  <exec_depend>autoware_imu_corrector</exec_depend>
+  <exec_depend>autoware_pointcloud_preprocessor</exec_depend>
+  <exec_depend>autoware_vehicle_velocity_converter</exec_depend>
+  <exec_depend>byd_k9s_sensor_kit_description</exec_depend>
+  <exec_depend>common_sensor_launch</exec_depend>
+  <exec_depend>nebula_ouster</exec_depend>
+  <exec_depend>topic_tools</exec_depend>
+
+  <test_depend>ament_lint_auto</test_depend>
+  <test_depend>autoware_lint_common</test_depend>
+
+  <export>
+    <build_type>ament_cmake</build_type>
+  </export>
+</package>

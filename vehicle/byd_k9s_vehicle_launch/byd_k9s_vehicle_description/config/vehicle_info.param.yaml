@@ -1,0 +1,15 @@
+# BYD K9S bus. Dimensions from drawing K9S-00001 rev A0 (inches), track width tape-measured (front).
+# The rear axle has dual tyres; Autoware uses one wheel_tread (front track) and the overhangs below
+# make the total width the 101.6 in body (mirrors excluded, see mirror.param.yaml).
+/**:
+  ros__parameters:
+    wheel_radius: 0.499 # 305/70R22.5: 22.5 in / 2 + 0.70 * 305 mm
+    wheel_width: 0.305 # 305/70R22.5
+    wheel_base: 5.639 # 222 in
+    wheel_tread: 2.123 # 83.6 in, front track
+    front_overhang: 2.210 # 87 in
+    rear_overhang: 3.048 # 120 in
+    left_overhang: 0.229 # (101.6 - 83.6) / 2 in
+    right_overhang: 0.229 # (101.6 - 83.6) / 2 in
+    vehicle_height: 3.505 # 138.0 in
+    max_steer_angle: 0.70 # [rad] TODO: placeholder, measure the K9S front-wheel lock angle
